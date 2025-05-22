@@ -1,0 +1,10 @@
+platformio.ini
+.pio
+node_modules
+src/secret.h
+.vscode
+lib
+include
+test
+package-lock.json
+package.json
