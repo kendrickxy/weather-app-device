@@ -3,7 +3,7 @@
 #include <HTTPClient.h>
 #include <Wire.h>
 #include <Adafruit_SHTC3.h>
-#include <SparkFunBQ27441.h> // Added for BQ27441
+#include <SparkFunBQ27441.h>
 #include <ArduinoJson.h>
 #include <Preferences.h>
 #include "secret.h" 

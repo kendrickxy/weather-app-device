@@ -1,12 +1,12 @@
 # ESP32-S2 Environmental Sensor & Battery Monitor with Firebase Logging
 
-This project implements a low-power environmental sensor node using an ESP32-S2 microcontroller. It reads temperature and humidity from an SHTC3 sensor, monitors LiPo battery voltage, current, and state of charge (SoC) using a BQ27441 fuel gauge, and periodically sends this data to a Firebase Realtime Database. The device utilizes deep sleep to conserve power and features a WiFi configuration mode via a web portal if it cannot connect to a known network.
+This project implements a low-power environmental sensor node using an ESP32-S2 microcontroller. It reads temperature and humidity from an SHTC3 sensor, monitors LiPo battery state of charge (SoC) using a BQ27441 fuel gauge, and periodically sends this data to a Firebase Realtime Database. The device utilizes deep sleep to conserve power and features a WiFi configuration mode via a web portal if it cannot connect to a known network.
 
 ## Features
 
 * **Environmental Sensing:** Reads temperature and humidity using an Adafruit SHTC3 sensor.
 * **Battery Monitoring:**
-    * Measures battery voltage, current (average), and State of Charge (SoC) using a SparkFun BQ27441 LiPo Fuel Gauge.
+    * Measures battery State of Charge (SoC) using a SparkFun BQ27441 LiPo Fuel Gauge.
     * Configurable battery capacity.
 * **WiFi Connectivity:**
     * Connects to a configured WiFi network to send data.
@@ -14,7 +14,7 @@ This project implements a low-power environmental sensor node using an ESP32-S2 
 * **Access Point (AP) Configuration Mode:**
     * If WiFi credentials are not set or connection fails, the device starts an AP.
     * Users can connect to this AP (SSID: `TempSensorConfig`) and configure WiFi SSID and password via a simple web portal.
-* **Data Logging:** Sends sensor data (temperature, humidity) and battery metrics (SoC, voltage, current) along with a timestamp and device ID to a specified Firebase Realtime Database.
+* **Data Logging:** Sends sensor data (temperature, humidity) and battery metric (SoC) along with a timestamp and device ID to a specified Firebase Realtime Database.
 * **Low Power Operation:**
     * Utilizes ESP32-S2 deep sleep functionality to minimize power consumption between readings.
     * Currently configured for a 5-minute sleep interval (adjustable).
@@ -30,7 +30,6 @@ This project implements a low-power environmental sensor node using an ESP32-S2 
 * **LiPo Fuel Gauge:** SparkFun BQ27441 LiPo Fuel Gauge (or compatible BQ27441 module).
     * **SCL Pin:** Connected to ESP32-S2 GPIO 33
     * **SDA Pin:** Connected to ESP32-S2 GPIO 34
-    * **Important:** Ensure the VSS (GND) pin of the BQ27441 is properly connected to ground.
 * **LiPo Battery:** Single-cell (1S) Lithium Polymer battery compatible with the BQ27441.
 * **Pull-up Resistors:** External pull-up resistors (e.g., 4.7kΩ) are **required** for both I2C buses:
     * One set for SHTC3 (GPIO 11 to 3.3V, GPIO 13 to 3.3V).
@@ -108,7 +107,7 @@ This project implements a low-power environmental sensor node using an ESP32-S2 
     * It attempts to connect to the configured WiFi network.
     * If successful, it synchronizes time with an NTP server.
     * It initializes and reads data from the SHTC3 sensor (temperature, humidity).
-    * It initializes and reads data from the BQ27441 fuel gauge (SoC, voltage, current).
+    * It initializes and reads data from the BQ27441 fuel gauge (SoC).
     * It sends the collected data to your Firebase database.
     * It then goes back into deep sleep for the duration defined by `SLEEP_DURATION`.
 
@@ -124,7 +123,7 @@ This project implements a low-power environmental sensor node using an ESP32-S2 
 * **Deep Sleep Current:** The BQ27441 itself, along with other components, will have a quiescent current draw. The 5-minute sleep interval provides good relaxation periods for the BQ27441 to take OCV readings and improve its battery model.
 * **Firebase Rules:** Ensure your Firebase Realtime Database rules are configured to allow writes to the specified `FIREBASE_PATH`.
 
-## Future Enhancements (Optional)
+## Possible Future Enhancements (Optional)
 
 * Implement OTA (Over-The-Air) updates for remote firmware flashing.
 * Add more detailed error reporting to Firebase.
